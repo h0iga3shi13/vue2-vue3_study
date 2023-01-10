@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="app.css">
+  <!-- Place your kit's code here -->
+  <script src="https://kit.fontawesome.com/f06a7a1d3c.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+<body>
+
+  <div id="app">
+    <button @click="isShow = !isShow">View image</button>
+
+    <!-- transition を使って画像の表示/非表示の切り替え時にボンヤリした効果をあてる -->
+    <transition name="fade">
+      <div v-show="isShow">
+        <div class="modal__inner">
+          <div class="modal__close" @click="isShow = !isShow">
+            <i class="fas fa-times"></i> <!-- font Awesome で×マークを読みこむ-->
+          </div>
+          <img src="image001.jpg">
+        </div>
+        <div class="modal__background" @click="isShow = !isShow">
+
+        </div>
+
+      </div>
+    </transition>
+
+  </div>
+
+  <script>
+    let app = new Vue({
+      el:'#app',
+      data() {
+        return {
+          isShow: false
+        }
+      }
+    })
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!--素の JS でクリックイベントの実装&クリックイベントを取得する -->
+  <button id="clickEvent" onClick="btnClicked()">
+    JS is Please, this btn click.
+  </button>
+
+<!-- 素の JS での Ajax通信の実装(非同期処理、画面の再読み込みを行わないようにする) -->
+<form>
+  <button id="prevent" type="submit">submit</button>
+</form>
+
+  <div id="app"> <!-- 仮想DOM -->
+    <!-- <button v-on:click="btnClicked">
+      Vue is Please, this btn click.
+    </button> -->
+    <!-- @を使った省略記法 -->
+    <button @click="btnClicked">
+      Vue is Please, this btn click.
+    </button><br/>
+    <!-- Vue で clickEvent を取得する -->
+    <button @click="btnClickedEvent">
+      Vue is Please, this btn click get Event.
+    </button><br/>
+    <!-- Vue で clickEvent の Argument(引数) を取得する -->
+    <button @click="btnClickedEventArgs(1)">
+      Vue is Please, this btn click get Argument.
+    </button><br/>
+    <!-- Vue で clickEvent の Argument(引数) と Event を同時に取得する (inline statement)-->
+    <button @click="btnClickedEventArgsEvent(1, $event)">
+      Vue is Please, this btn click get Event & Argument.
+    </button>
+    <p>VueでAjax通信を実装しようとした場合、"v-on:click"の後に、修飾子を付けることで実装可能 #https://jp.vuejs.org/v2/api/#v-on</p>
+  </div>
+
+  <script>
+  let app = new Vue({
+        el: '#app',
+        data() { // 初期設定を行うところだと思えばoK
+          return {
+          }
+        },
+        methods: {
+          btnClicked() {
+            console.log('Vue Btn Click Now');
+          },
+          btnClickedEvent(e) {
+            console.log(e);
+          },
+          btnClickedEventArgs(int) {
+            console.log(int);
+            // btnClickedEventArgsで渡している引数"1"を取得して console に表示する
+          },
+          btnClickedEventArgsEvent(int, e) {
+            console.log(int, e);
+          }
+        }
+      })
+
+
+    function btnClicked() {
+      console.log('JS Btn Click Now');
+    }
+
+    const clickEvent = document.getElementById('clickEvent');
+    clickEvent.addEventListener('click', (e)=>{
+      console.log(e);
+    })
+
+    const prevent = document.getElementById('prevent');
+    prevent.addEventListener('click', (e)=>{
+      e.preventDefault();
+      console.log(e);
+    })
+
+
+
+  </script>
+</body>
+</html>

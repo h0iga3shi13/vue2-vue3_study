@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js">
+
+    </script>
+    <script>
+      // 素のJSで記述した場合（逐一取得するのでserver通信が重い）
+      // window.addEventListener('resize',()=>{
+      //   console.log('画面幅の変更を逐次検知するよ');
+      // })
+
+      // Lodash を使ってイベントの取得タイミングをコントロールする（serverとの通信回数を制御し負荷を下げる）
+      // debounce
+      // window.addEventListener('resize', _.debounce(()=>{
+      //   console.log('debounceを使って画面幅の変更動作終了から3秒後に検知するよ');
+      // }, 3000))
+
+      // Lodash を使ってイベントの取得タイミングをコントロールする（serverとの通信回数を制御し負荷を下げる）
+      // throttle
+      window.addEventListener('resize', _.throttle(()=>{
+        console.log('throttleを使って画面幅の変更動作開始に一度検知して、変更動作終了から3秒後に再度検知するよ');
+      }, 3000))
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>watchプロパティーの解説</title>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="getDogImage">ワンちゃんの画像を取得</button>
+      <br />
+      <img :src="dogImage" />
+      <input type="text" v-model="watchTest">
+    </div>
+    <!-- Vue.js 読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <!-- lodash 読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+
+    <script>
+      let obj = {
+        a: 'テスト'
+      }
+      obj.b = 'あああ'
+      obj.c = test
+
+      function test() {
+        console.log('テスト')
+      }
+
+      // fetch の引数を設定
+      const url = 'https://dog.ceo/api/breeds/image/random'
+      const options = {
+        methods: 'get',
+      }
+
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            dogImage: '',
+            watchTest: ''
+          }
+        },
+        methods: {
+          async getDogImage() {
+            const response = await fetch(url, options)
+            .then((response) => response.json() )
+            // console.log(response.message) //dog api で取得した画像のURLを取得
+            this.dogImage = response.message
+          }
+        },
+        // watchTest に文字が入力される(何かしらの変更が加えられる)かを監視する。変更を検知した場合は watchDogImage関数を実行する
+        watch:{
+          watchTest(){
+            this.watchDogImage()
+          }
+        },
+        created(){
+          this.getDogImage()
+          // 1秒後にワンちゃんの画像APIを実行し、画像をランダムに変更する
+          this.watchDogImage = _.debounce(this.getDogImage, 1000)
+        }
+      })
+    </script>
+  </body>
+</html>

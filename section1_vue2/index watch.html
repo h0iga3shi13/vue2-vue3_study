@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app"> <!-- 仮想DOM -->
+    {{ totalPriceMethods() }}
+    {{ totalPriceMethods() }}
+
+    <!-- computed は値の変更を検知した時のみに動作するので処理を節約できる -->
+    {{ totalPrice }}
+    {{ totalPrice }}
+  </div>
+
+  <script>
+  let app = new Vue({
+        el: '#app',
+        data() { // 初期設定を行うところだと思えばoK
+          return {
+            price: 1,
+            number: 1,
+            books: [
+              {
+                id: 1,
+                title: 'タイトル1',
+                author: '著者名1',
+                url: 'https://google.com'
+              },
+              {
+                id: 2,
+                title: 'タイトル2',
+                author: '著者名2',
+                url: 'https://google.com'
+              },
+              {
+                id: 3,
+                title: 'タイトル3',
+                author: '著者名3',
+                url: 'https://google.com'
+              },
+            ]
+          }
+        },
+        methods: {
+          totalPriceMethods() {
+            console.log('methods です')
+            return this.number * this.price
+          }
+        },
+        computed: {
+          // totalPrice() {
+          //   console.log('computed です')
+          //   return this.number * this.price
+          // }
+          // computed でアロー関数 functionName: (viewInstance) => {} を使用する
+          totalPrice: app => app.number * app.price
+        },
+        // https://jp.vuejs.org/v2/api/#watch
+        watch: {
+          books: {
+            handler() {
+              console.log('変更されました')
+            },
+            deep: true
+          }
+        }
+      })
+
+      console.log(this); // windowオブジェクトになる
+
+      const obj = {
+        test: function () {
+          console.log(this) // オブジェクトの中で this とすると,そのオブジェクト(test)になる
+        }
+      }
+
+      const objArrow = {
+        test: () => {
+          console.log(this) // アロー関数の中で this を使うと,windowオブジェクトになる
+        }
+      }
+
+  </script>
+</body>
+</html>
